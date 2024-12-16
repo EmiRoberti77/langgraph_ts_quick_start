@@ -4,7 +4,11 @@
   "description": "sample code using langgraph frame work, building a agent within the LLM",
   "main": "./dist/index.js",
   "scripts": {
-    "test": "dev"
+    "install": "npm i",
+    "test": "ts-node ./src/index.ts",
+    "nodemon": "nodemon",
+    "build": "npx tsc",
+    "run": "node ./dist/index.js"
   },
   "repository": {
     "type": "git",
