@@ -19,14 +19,14 @@ const agent = createReactAgent({
   checkpointSaver: agentCheckPoint,
 });
 
-async function invoke(question: string) {
+async function invoke(question: string, thread_id: number) {
   const agentFinalState = await agent.invoke(
     {
       messages: [new HumanMessage(question)],
     },
     {
       configurable: {
-        thread_id: "10",
+        thread_id,
       },
     }
   );
@@ -37,4 +37,4 @@ async function invoke(question: string) {
   console.log(response);
 }
 
-invoke("who won the 2024 F1 champion ship");
+invoke("who won the 2024 F1 championship?", 10);
