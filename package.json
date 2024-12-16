@@ -1,0 +1,33 @@
+{
+  "name": "langgraph-quickstart",
+  "version": "1.0.0",
+  "description": "sample code using langgraph frame work, building a agent within the LLM",
+  "main": "./dist/index.js",
+  "scripts": {
+    "test": "dev"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EmiRoberti77/langgraph_ts_quick_start.git"
+  },
+  "keywords": [
+    "langchain",
+    "llm",
+    "tavily",
+    "openAI",
+    "agent",
+    "langgraph"
+  ],
+  "author": "Emi Roberti",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/EmiRoberti77/langgraph_ts_quick_start/issues"
+  },
+  "homepage": "https://github.com/EmiRoberti77/langgraph_ts_quick_start#readme",
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "nodemon": "^3.1.9",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.2"
+  }
+}
