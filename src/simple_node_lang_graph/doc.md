@@ -27,7 +27,7 @@ const GraphState = Annotation.Root({
 - messages: A state variable initialised as an array of BaseMessage objects
 - reduces: This is a function that appends new messages (y) to the existsing (x) in the state. This is crucial for accumulating messages as the workflows progresses
 
-## Defining a Node function in the grapg
+## Defining a Node function in the graph
 
 ```typescript
 const nodeFn = async (_state: typeof GraphState.State) => {
