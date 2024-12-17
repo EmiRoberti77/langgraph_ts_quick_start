@@ -45,7 +45,7 @@ const nodeE = (_state: typeof ConditionalBranchingAnnotations.State) => {
 const routeToCDorBC = (
   _state: typeof ConditionalBranchingAnnotations.State
 ): string[] => {
-  if (_state.which === "cd") {
+  if (_state.which === "CD") {
     return ["C", "D"];
   }
   return ["B", "C"];
