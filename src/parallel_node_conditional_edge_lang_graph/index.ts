@@ -1,30 +1,74 @@
 import { START, END, Annotation, StateGraph } from "@langchain/langgraph";
 
 const ConditionalBranchingAnnotations = Annotation.Root({
-  aggredate: Annotation<string[]>({
+  aggregate: Annotation<string[]>({
     reducer: (x, y) => x.concat(y),
   }),
   which: Annotation<string>({
     reducer: (x: string, y: string) => y ?? x, //if y is defined update the value to y if not keep it to x
   }),
+  name: Annotation<string>({
+    reducer: () => "emi",
+  }),
 });
 
-const func = (x: string, y: string | undefined) => {
-  const result = y ?? x;
-  return result;
+const nodeA = (_state: typeof ConditionalBranchingAnnotations.State) => {
+  const IAM = "I am A ";
+  console.log(_state.name, `${IAM}-to->${_state.aggregate}`);
+  return { aggregate: [IAM] };
 };
 
-const func_2 = (x: string, y: string | undefined) => {
-  if (y) return y;
-  return x;
+const nodeB = (_state: typeof ConditionalBranchingAnnotations.State) => {
+  const IAM = "I am B ";
+  console.log(_state.name, `${IAM}-to->${_state.aggregate}`);
+  return { aggregate: [IAM] };
 };
 
-const res1 = func("a", "b");
-console.log("res-1", res1);
-const res1_2 = func_2("a", "b");
-console.log("res-1_2", res1_2);
-console.log("---------------------");
-const res2 = func("a", undefined);
-console.log("res-2", res2);
-const res2_2 = func_2("a", undefined);
-console.log("res-2_2", res2_2);
+const nodeC = (_state: typeof ConditionalBranchingAnnotations.State) => {
+  const IAM = "I am C ";
+  console.log(_state.name, `${IAM}-to->${_state.aggregate}`);
+  return { aggregate: [IAM] };
+};
+
+const nodeD = (_state: typeof ConditionalBranchingAnnotations.State) => {
+  const IAM = "I am D ";
+  console.log(_state.name, `${IAM}-to->${_state.aggregate}`);
+  return { aggregate: [IAM] };
+};
+
+const nodeE = (_state: typeof ConditionalBranchingAnnotations.State) => {
+  const IAM = "I am E ";
+  console.log(_state.name, `${IAM}-to->${_state.aggregate}`);
+  return { aggregate: [IAM] };
+};
+
+const routeToCDorBC = (
+  _state: typeof ConditionalBranchingAnnotations.State
+): string[] => {
+  if (_state.which === "cd") {
+    return ["C", "D"];
+  }
+  return ["B", "C"];
+};
+
+const graphBuilder = new StateGraph(ConditionalBranchingAnnotations)
+  .addNode("A", nodeA)
+  .addNode("B", nodeB)
+  .addNode("C", nodeC)
+  .addNode("D", nodeD)
+  .addNode("E", nodeE)
+  .addEdge(START, "A")
+  .addConditionalEdges("A", routeToCDorBC, ["B", "C", "D"]) //third param only for visualisaztion of graph
+  .addEdge("B", "E")
+  .addEdge("C", "E")
+  .addEdge("D", "E")
+  .addEdge("E", END);
+
+const graph = graphBuilder.compile();
+
+const invoke = async () => {
+  const finalState = await graph.invoke({ aggregate: [], which: "CD" });
+  console.log(finalState);
+};
+
+invoke();
