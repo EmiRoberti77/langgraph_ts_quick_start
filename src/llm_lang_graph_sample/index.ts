@@ -57,8 +57,6 @@ const model = new ChatOpenAI({
 function shouldContinue(_state: typeof StateAnnotations.State) {
   const messages = _state.messages;
   const lastMessage = messages[messages.length - 1] as AIMessage;
-  //console.log("last message", lastMessage);
-  //if LLM makes a tool call then we route to the "tools" node
   if (lastMessage.tool_calls?.length) {
     console.log("return __tools__");
     return "__tools__";
