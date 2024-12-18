@@ -57,17 +57,20 @@ const model = new ChatOpenAI({
 function shouldContinue(_state: typeof StateAnnotations.State) {
   const messages = _state.messages;
   const lastMessage = messages[messages.length - 1] as AIMessage;
+  //console.log("last message", lastMessage);
   //if LLM makes a tool call then we route to the "tools" node
   if (lastMessage.tool_calls?.length) {
+    console.log("return __tools__");
     return "__tools__";
   }
+  console.log("return __end__");
   return END;
 }
 
 async function CallModel(_state: typeof StateAnnotations.State) {
-  const resposne = await model.invoke(_state.messages);
+  const response = await model.invoke(_state.messages);
   return {
-    messages: [resposne],
+    messages: [response],
   };
 }
 
@@ -77,7 +80,8 @@ const workflow = new StateGraph(StateAnnotations)
   .addNode("__tools__", toolNode)
   .addEdge(START, "__agent__")
   .addConditionalEdges("__agent__", shouldContinue)
-  .addEdge("__tools__", END);
+  .addEdge("__tools__", "__agent__")
+  .addEdge("__agent__", END);
 
 const checkpointer = new MemorySaver();
 const app = workflow.compile({ checkpointer });
