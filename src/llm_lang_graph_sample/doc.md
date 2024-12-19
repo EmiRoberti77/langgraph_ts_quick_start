@@ -150,8 +150,8 @@ const refineResponse = async (_state: typeof StateAnnotations.State) => {
 
   // Generate a refined prompt with explicit instructions
   const refinedPrompt = `
-    Based on the following information, summarize only the deliverables related to Phase 2.
-    Do not include details about Phase 3 or other unrelated content.
+    Based on the following information, summarize only the deliverables related to Phase 5.
+    Do not include details about any other phases.
     ${lastToolMessage.content}
   `;
   const refinedMessage = new HumanMessage(refinedPrompt);
